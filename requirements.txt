@@ -1,0 +1,14 @@
+langchain
+langgraph
+sentence-transformers
+langchain-groq
+langchain-community
+langchain-core
+langchain_chroma
+dotenv
+streamlit
+ipykernel
+langgraph-supervisor
+langchain-tavily
+arxiv
+wikipedia
