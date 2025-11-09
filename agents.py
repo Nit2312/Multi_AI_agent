@@ -1,7 +1,7 @@
 from langgraph_supervisor import create_supervisor
 from langgraph.prebuilt import create_react_agent
 
-from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_tavily import TavilySearch
 from langchain_community.tools import ArxivQueryRun, WikipediaQueryRun
 from langchain_community.utilities import ArxivAPIWrapper, WikipediaAPIWrapper
 from langchain_groq import ChatGroq
@@ -18,7 +18,7 @@ llm
 
 #------------------------ Tools ------------------------
 
-tavily = TavilySearchResults()
+tavily = TavilySearch()
 
 api_wrapper_arxiv=ArxivAPIWrapper(top_k_results=2, doc_content_chars_max=500)
 arxiv = ArxivQueryRun(api_wrapper=api_wrapper_arxiv, description="Query arxiv papers")

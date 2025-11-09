@@ -1,16 +1,4 @@
-from agents import Tavily_agent, wiki_agent, arxiv_agent, llm
-from langgraph_supervisor import create_supervisor
-from langgraph_supervisor import create_handoff_tool
-
-def transfer_back_to_supervisor(content):
-    # This is the mechanism by which each agent sends its final result to the supervisor
-    return content
-
-workflow = create_supervisor(
-    agents=[Tavily_agent, wiki_agent, arxiv_agent],
-    model=llm,
-    prompt=(
-        """You are an advanced AI Supervisor responsible for orchestrating multiple specialized agents to provide comprehensive answers to user queries.
+supervisor_prompt ="""You are an advanced AI Supervisor responsible for orchestrating multiple specialized agents to provide comprehensive answers to user queries.
 
 ### Available Agents:
 1. Tavily Agent: Expert in recent events, news, and real-time web information
@@ -60,35 +48,3 @@ workflow = create_supervisor(
    - Acknowledge sources and confidence levels
 
 Always think step-by-step and document your reasoning process. Your goal is to provide accurate, comprehensive answers while optimizing agent usage."""
-    ),
-    output_mode="full_history"
-)
-
-app = workflow.compile(name="supervisor_workflow")
-
-
-    
-def run_agent():
-    print("Multi-Source Research Agent")
-    print("Type 'exit' to quit\n")
-    while True:
-        user_input = input("Ask me anything: ")
-        if user_input.lower() == "exit":
-            print("Bye")
-            break
-        result = app.invoke({
-            "messages": [
-                {
-                    "role": "user",
-                    "content": user_input
-                }
-            ],
-            "tools":["transfer_back_to_supervisor"],
-            "max_tokens": 1000
-        })
-        for m in result['messages']:
-            m.pretty_print()
-        
-    
-if __name__ == "__main__":
-    run_agent()
